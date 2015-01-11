@@ -33,11 +33,11 @@ uniform int batchEnd = 0;
 uniform int primvarOffset = 0;
 uniform int numCVs = 0;
 
-layout(binding=0) buffer vertex_buffer    { float         vertexBuffer[]; };
-layout(binding=1) buffer sterncilSizes    { unsigned char _sizes[];   };
-layout(binding=2) buffer sterncilOffsets  { int           _offsets[]; };
-layout(binding=3) buffer sterncilIndices  { int           _indices[]; };
-layout(binding=4) buffer sterncilWeights  { float         _weights[]; };
+layout(binding=0) buffer vertex_buffer    { float vertexBuffer[]; };
+layout(binding=1) buffer sterncilSizes    { uint  _sizes[];   };
+layout(binding=2) buffer sterncilOffsets  { int  _offsets[]; };
+layout(binding=3) buffer sterncilIndices  { int  _indices[]; };
+layout(binding=4) buffer sterncilWeights  { float _weights[]; };
 
 layout(local_size_x=WORK_GROUP_SIZE, local_size_y=1, local_size_z=1) in;
 
@@ -56,8 +56,8 @@ void clear(out Vertex v) {
 Vertex readVertex(int index) {
     Vertex v;
     int vertexIndex = primvarOffset + index * STRIDE;
-    for (int i = 0; i < LENGTH; ++i) {
-        v.vertexData[i] = vertexBuffer[vertexIndex + i];
+    for (int j = 0; j < LENGTH; ++j) {
+        v.vertexData[j] = vertexBuffer[vertexIndex + j];
     }
     return v;
 }
@@ -69,9 +69,9 @@ void writeVertex(int index, Vertex v) {
     }
 }
 
-void addWithWeight(inout Vertex v, const Vertex src, float weight) {
-    for (int i = 0; i < LENGTH; ++i) {
-        v.vertexData[i] += weight * src.vertexData[i];
+void addWithWeight(inout Vertex v, in Vertex src, in float weight) {
+    for (uint k = 0; k < LENGTH; ++k) {
+        v.vertexData[k] += weight * src.vertexData[k];
     }
 }
 
@@ -105,7 +105,8 @@ void computeStencil() {
 void main()
 {
     // call subroutine
-    computeKernel();
+    //computeKernel();
+	computeStencil();
 }
 
 //------------------------------------------------------------------------------

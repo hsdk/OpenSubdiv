@@ -67,7 +67,11 @@ class GLSLComputeContext::GLSLStencilTables {
 public:
 
     GLSLStencilTables(Far::StencilTables const & stencilTables) {
-        _sizes = createGLSLBuffer(stencilTables.GetSizes());
+        //_sizes = createGLSLBuffer(stencilTables.GetSizes());
+		// workaround: ubyte buffer dont seem to work well
+		std::vector<int> blub(stencilTables.GetSizes().size());
+		for (int i = 0; i < blub.size(); ++i){ blub[i] = stencilTables.GetSizes()[i]; }
+		_sizes = createGLSLBuffer(blub);
         _offsets = createGLSLBuffer(stencilTables.GetOffsets());
         _indices = createGLSLBuffer(stencilTables.GetControlIndices());
         _weights = createGLSLBuffer(stencilTables.GetWeights());

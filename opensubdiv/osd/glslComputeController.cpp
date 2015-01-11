@@ -98,6 +98,15 @@ public:
         shaderSources[2] = shaderSource;
         glShaderSource(shader, 3, shaderSources, NULL);
         glCompileShader(shader);
+
+		GLint infoLength = 0;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLength);
+
+		if (infoLength > 1) {
+			char buffer[1024];
+			glGetShaderInfoLog(shader, 1024, NULL, buffer);
+			Far::Error(Far::FAR_RUNTIME_ERROR, buffer);
+		}
         glAttachShader(_program, shader);
 
         GLint linked = 0;
@@ -119,7 +128,7 @@ public:
 
         glDeleteShader(shader);
 
-        _subStencilKernel = glGetSubroutineIndex(_program, GL_COMPUTE_SHADER, "computeStencil");
+        //_subStencilKernel = glGetSubroutineIndex(_program, GL_COMPUTE_SHADER, "computeStencil");
 
         // set uniform locations for compute kernels
         _uniformSizes   = glGetUniformLocation(_program, "sterncilSizes");
@@ -141,7 +150,7 @@ public:
     void ApplyStencilTableKernel(Far::KernelBatch const &batch, int offset, int numCVs) const {
 
         // select stencil GLSL subroutine
-        glUniformSubroutinesuiv(GL_COMPUTE_SHADER, 1, &_subStencilKernel);
+        //glUniformSubroutinesuiv(GL_COMPUTE_SHADER, 1, &_subStencilKernel);
 
         dispatchCompute(offset, numCVs, batch.start, batch.end);
     }
