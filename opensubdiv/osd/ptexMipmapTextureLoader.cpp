@@ -948,12 +948,12 @@ PtexMipmapTextureLoader::generateBuffers()
     int numPages = (int)_pages.size();
 
     // populate the texels
-    int pageStride = _bpp * _pageWidth * _pageHeight;
+    unsigned int pageStride = _bpp * _pageWidth * _pageHeight;
 	//_texelBuffer = new unsigned char[pageStride * numPages];
 	unsigned int bufferSize = pageStride * numPages;
     _texelBuffer = new unsigned char[bufferSize];    
-    _memoryUsage = pageStride * numPages;
-    memset(_texelBuffer, 0, pageStride * numPages);
+	_memoryUsage = bufferSize;
+	memset(_texelBuffer, 0, bufferSize);
 
     for (int i = 0; i < numPages; ++i) {
         _pages[i]->Generate(this, _ptex, _texelBuffer + pageStride * i,
