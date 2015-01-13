@@ -846,8 +846,8 @@ PtexTextureLoader::GenerateBuffers( )
     }
 
     // populate the texels -------------------------------------------
-    int stride = _bpp * _pagesize,
-        pagestride = stride * _pagesize;
+	unsigned int stride = _bpp * _pagesize,
+                 pagestride = stride * _pagesize;
 
     unsigned char * pptr = _texelBuffer = new unsigned char[ pagestride * _pages.size() ];
 
