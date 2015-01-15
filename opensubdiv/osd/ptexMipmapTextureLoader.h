@@ -66,6 +66,12 @@ public:
     int GetPageHeight() const {
         return _pageHeight;
     }
+	int GetNumChannels() const {
+		return _numChannels;
+	}
+	int GetDataType() const {
+		return _dataType;
+	}
     size_t GetMemoryUsage() const {
         return _memoryUsage;
     }
@@ -151,6 +157,8 @@ private:
     int _maxLevels;
     int _bpp;
     int _pageWidth, _pageHeight;
+	int _numChannels;
+	int _dataType;
 
     unsigned char *_texelBuffer;
     unsigned char *_layoutBuffer;

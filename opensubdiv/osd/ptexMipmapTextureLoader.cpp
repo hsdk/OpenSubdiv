@@ -458,6 +458,8 @@ PtexMipmapTextureLoader::PtexMipmapTextureLoader(PtexTexture *ptex,
     _memoryUsage(0)
 {
     // byte per pixel
+	_numChannels = ptex->numChannels();
+	_dataType = ptex->dataType();
     _bpp = ptex->numChannels() * Ptex::DataSize(ptex->dataType());
 
     int numFaces = ptex->numFaces();
